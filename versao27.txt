@@ -1,0 +1,1678 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SULPARA MASSEY FERGUSON - Catálogo de Produtos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mf-red': '#E31937',
+                        'mf-gray': '#333333',
+                        'mf-light': '#F5F5F5',
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .mf-header {
+            background-color: #E31937;
+            color: white;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .category-filter {
+            transition: background-color 0.3s ease;
+        }
+        .category-filter.active {
+            background-color: #E31937;
+            color: white;
+        }
+        .loader {
+            border-top-color: #E31937;
+            animation: spinner 1s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* CARD DE COMPARTILHAMENTO SIMPLIFICADO */
+        #share-card {
+            width: 600px;
+            height: 400px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .share-header {
+            background-color: #E31937;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .share-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .share-logo img {
+            height: 30px;
+            margin-right: 12px;
+        }
+        
+        .share-content {
+            display: flex;
+            flex: 1;
+        }
+        
+        .share-image-container {
+            width: 40%;
+            background-color: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .share-image-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+        }
+        
+        .share-image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .share-details {
+            width: 60%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .share-product-code {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .share-product-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #333;
+            margin-bottom: 20px;
+            max-height: 100px;
+            overflow: hidden;
+        }
+        
+        .share-price-container {
+            margin-top: auto;
+            margin-bottom: 10px;
+        }
+        
+        .share-price-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .share-price-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #E31937;
+        }
+        
+        .share-price-validity {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .share-contact {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .share-contact-title {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .share-contact-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .share-contact-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        
+        .share-footer {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.7rem;
+            color: #999;
+            text-align: right;
+        }
+        
+        /* Estilos para os badges promocionais */
+        .promo-badge {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #E31937;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(227, 25, 55, 0.3);
+            transform: rotate(5deg);
+            z-index: 10;
+        }
+        
+        .offer-badge {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background-color: #FFD700;
+            color: #E31937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transform: rotate(15deg);
+            clip-path: polygon(
+                50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+            );
+            z-index: 10;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .campaign-badge {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: linear-gradient(135deg, #E31937 0%, #FF5757 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(227, 25, 55, 0.3);
+            z-index: 10;
+            text-transform: uppercase;
+            border: 2px solid white;
+        }
+        
+        /* Button Styles */
+        .action-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-weight: 600;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        }
+        
+        .action-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        }
+        
+        .download-button {
+            background: linear-gradient(135deg, #E31937 0%, #C41230 100%);
+        }
+        
+        .action-button svg {
+            margin-right: 8px;
+        }
+        
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            font-weight: 500;
+        }
+        
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Responsive adjustments for the main app */
+        @media (max-width: 768px) {
+            .product-card {
+                margin-bottom: 20px;
+            }
+        }
+        
+        /* Logo SVG inline */
+        .mf-logo-svg {
+            height: 30px;
+            width: auto;
+            margin-right: 12px;
+        }
+        
+        /* Massey Ferguson Logo */
+        .mf-logo {
+            height: 30px;
+            width: auto;
+            margin-right: 12px;
+        }
+        
+        /* Imagem gerada */
+        #generated-image-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #generated-image {
+            max-width: 90%;
+            max-height: 80%;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .close-image-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .close-image-btn:hover {
+            background-color: #555;
+        }
+        
+        .download-image-btn {
+            background-color: #E31937;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .download-image-btn:hover {
+            background-color: #C41230;
+        }
+        
+        /* Estilo para o canvas de compartilhamento */
+        #share-canvas-container {
+            display: none;
+        }
+        
+        #share-canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="mf-header shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- SVG logo inline para garantir que carregue -->
+                <svg class="h-10 mr-2" viewBox="0 0 512 512" fill="#FFFFFF">
+                    <path d="M0,256 L0,128 L128,128 L128,0 L384,0 L384,128 L512,128 L512,384 L384,384 L384,512 L128,512 L128,384 L0,384 Z" fill="#E31937"/>
+                    <path d="M128,128 L384,128 L384,384 L128,384 Z" fill="#FFFFFF"/>
+                </svg>
+                <div>
+                    <h1 class="text-xl font-bold">SULPARA</h1>
+                    <p class="text-sm">MASSEY FERGUSON</p>
+                </div>
+            </div>
+            <div class="text-sm">
+                <p>PARAGOMINAS/PA</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Search and Filter -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
+                    <input type="text" id="search" placeholder="Código ou descrição..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mf-red">
+                </div>
+                <div class="w-full md:w-1/3">
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                    <select id="category" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mf-red">
+                        <option value="all">Todas as categorias</option>
+                        <!-- Categories will be populated dynamically -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loader" class="flex flex-col items-center justify-center my-12">
+            <div class="loader w-12 h-12 border-4 border-gray-200 rounded-full mb-4"></div>
+            <p class="text-gray-600">Carregando produtos...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="hidden text-center py-12">
+            <svg class="w-16 h-16 mx-auto text-mf-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <p class="mt-4 text-xl font-medium text-gray-700">Erro ao carregar os produtos</p>
+            <p class="text-gray-500 mb-4">Não foi possível acessar os dados da planilha.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button id="retry-button" class="px-4 py-2 bg-mf-red text-white rounded-md hover:bg-red-700">
+                    Tentar novamente
+                </button>
+                <button id="use-local-data" class="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800">
+                    Usar dados de exemplo
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Products will be populated dynamically -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-12">
+            <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p class="mt-4 text-xl font-medium text-gray-500">Nenhum produto encontrado</p>
+            <p class="text-gray-400">Tente ajustar os filtros ou termos de busca</p>
+        </div>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 transform translate-y-8">
+            <div class="p-6">
+                <div class="flex justify-between items-start">
+                    <h2 id="modal-title" class="text-2xl font-bold text-mf-gray"></h2>
+                    <button id="close-modal" class="text-gray-400 hover:text-mf-red">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-100 rounded-lg flex items-center justify-center p-4 h-64">
+                        <div id="modal-image-container" class="w-full h-full flex items-center justify-center">
+                            <img id="modal-image" class="max-w-full max-h-full object-contain" src="" alt="Produto">
+                            <div id="modal-image-loader" class="loader w-10 h-10 border-4 border-gray-200 rounded-full"></div>
+                            <div id="modal-image-error" class="image-error hidden">
+                                <div>
+                                    <svg class="w-12 h-12 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Imagem não disponível
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-500">Código</p>
+                            <p id="modal-pn" class="font-medium"></p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-500">Categoria</p>
+                            <p id="modal-category" class="font-medium"></p>
+                        </div>
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-500">Preço</p>
+                            <p id="modal-price" class="text-2xl font-bold text-mf-red"></p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4">
+                            <h3 class="font-medium mb-2">Selecione um vendedor para compartilhar:</h3>
+                            <div class="flex flex-wrap gap-2 mb-4" id="vendor-selection">
+                                <!-- Vendors will be populated dynamically -->
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h3 class="font-medium mb-2">Destaque promocional:</h3>
+                                <div class="flex flex-wrap gap-2 mb-4" id="promo-selection">
+                                    <button class="px-3 py-1 border rounded-md text-sm border-gray-300 hover:border-mf-red" data-promo="none">Sem destaque</button>
+                                    <button class="px-3 py-1 border rounded-md text-sm border-gray-300 hover:border-mf-red" data-promo="promo">Promoção</button>
+                                    <button class="px-3 py-1 border rounded-md text-sm border-gray-300 hover:border-mf-red" data-promo="offer">Oferta</button>
+                                    <button class="px-3 py-1 border rounded-md text-sm border-gray-300 hover:border-mf-red" data-promo="campaign">Campanha</button>
+                                </div>
+                            </div>
+                            
+                            <button id="generate-share-image" class="w-full mt-4 px-4 py-3 bg-mf-red text-white rounded-md hover:bg-red-700 flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                                </svg>
+                                Gerar imagem para compartilhar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Image Modal -->
+    <div id="share-image-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 transform translate-y-8 p-6">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-2xl font-bold text-mf-gray">Imagem para compartilhamento</h2>
+                <button id="close-share-modal" class="text-gray-400 hover:text-mf-red">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <!-- Share Card Container (scales down for preview) -->
+                <div class="mb-8 overflow-hidden rounded-lg shadow-lg" style="transform: scale(0.8); transform-origin: top center;">
+                    <!-- Card de compartilhamento simplificado -->
+                    <div id="share-card">
+                        <!-- Header -->
+                        <div class="share-header">
+                            <div class="share-logo">
+                                <!-- Logo Massey Ferguson -->
+                                <img src="https://logospng.org/download/massey-ferguson/massey-ferguson-512.png" alt="Massey Ferguson Logo" class="mf-logo" crossorigin="anonymous">
+                                <div>
+                                    <h2 class="text-xl font-bold">SULPARA</h2>
+                                    <p class="text-sm">MASSEY FERGUSON</p>
+                                </div>
+                            </div>
+                            <div>
+                                PARAGOMINAS/PA
+                            </div>
+                        </div>
+                        
+                        <!-- Promo badge (será adicionado dinamicamente) -->
+                        <div id="promo-badge" class="hidden"></div>
+                        
+                        <!-- Content -->
+                        <div class="share-content">
+                            <!-- Left side - Image -->
+                            <div class="share-image-container">
+                                <div class="share-image-box">
+                                    <img id="share-image" src="" alt="Produto">
+                                </div>
+                            </div>
+                            
+                            <!-- Right side - Details -->
+                            <div class="share-details">
+                                <div class="share-product-code" id="share-pn"></div>
+                                <h3 class="share-product-title" id="share-title"></h3>
+                                
+                                <div class="share-price-container">
+                                    <div class="share-price-label">Preço</div>
+                                    <div class="share-price-value" id="share-price"></div>
+                                    <div class="share-price-validity">Preço válido por 7 dias</div>
+                                </div>
+                                
+                                <div class="share-contact">
+                                    <div class="share-contact-title">Para mais informações:</div>
+                                    <div class="share-contact-name" id="share-vendor-name"></div>
+                                    <div class="share-contact-info" id="share-vendor-email"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer -->
+                        <div class="share-footer">
+                            <div id="share-date"></div>
+                            <div>© SULPARA MASSEY FERGUSON</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button id="download-image" class="action-button download-button">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Baixar imagem
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generated Image Viewer -->
+    <div id="generated-image-container">
+        <img id="generated-image" src="" alt="Imagem gerada">
+        <div class="image-actions">
+            <button class="close-image-btn" id="close-generated-image">Fechar</button>
+            <a id="save-generated-image" class="download-image-btn" href="#" download="produto-compartilhamento.png">Salvar imagem</a>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        Imagem gerada com sucesso!
+    </div>
+
+    <!-- Preload de imagens -->
+    <div style="display: none;">
+        <img id="mf-logo-preload" src="https://logospng.org/download/massey-ferguson/massey-ferguson-512.png" crossorigin="anonymous">
+    </div>
+
+    <script>
+        // Dados dos vendedores atualizados com os números de WhatsApp corretos
+        const vendors = [
+            { id: 1, nome: "Bruno", whatsapp: "91-99199-1529", email: "bruno.desousa@revemar.com.br" },
+            { id: 2, nome: "Francisco", whatsapp: "91-99162-9648", email: "francisco.jesus@revemar.com.br" },
+            { id: 3, nome: "Ricardo", whatsapp: "91-99206-0878", email: "ricardo.barros@revemar.com.br" },
+            { id: 4, nome: "Branco", whatsapp: "91-99162-9654", email: "joao.branco@revemar.com.br" },
+            { id: 5, nome: "Rodney", whatsapp: "94-99183-6865", email: "rodney.brito@revemar.com.br" }
+        ];
+
+        // Fallback product data (in case API loading fails)
+        const fallbackProducts = [
+            { pn: "3792613M91", descricao: "FILTRO HIDRÁULICO", preco: "R$ 189,90", categoria: "Filtros" },
+            { pn: "4275623M1", descricao: "FILTRO DE AR", preco: "R$ 145,50", categoria: "Filtros" },
+            { pn: "3641476M91", descricao: "FILTRO DE COMBUSTÍVEL", preco: "R$ 78,90", categoria: "Filtros" },
+            { pn: "4265410M1", descricao: "CORREIA DO MOTOR", preco: "R$ 210,00", categoria: "Motor" },
+            { pn: "3712514M91", descricao: "KIT DE REPARO", preco: "R$ 350,00", categoria: "Peças de Reposição" },
+            { pn: "3774019M1", descricao: "ROLAMENTO", preco: "R$ 125,75", categoria: "Peças de Reposição" }
+        ];
+
+        // DOM Elements
+        const productsContainer = document.getElementById('products-container');
+        const categorySelect = document.getElementById('category');
+        const searchInput = document.getElementById('search');
+        const noResults = document.getElementById('no-results');
+        const loader = document.getElementById('loader');
+        const errorMessage = document.getElementById('error-message');
+        const retryButton = document.getElementById('retry-button');
+        const useLocalDataButton = document.getElementById('use-local-data');
+        const modal = document.getElementById('product-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalPN = document.getElementById('modal-pn');
+        const modalCategory = document.getElementById('modal-category');
+        const modalPrice = document.getElementById('modal-price');
+        const modalImage = document.getElementById('modal-image');
+        const modalImageLoader = document.getElementById('modal-image-loader');
+        const modalImageError = document.getElementById('modal-image-error');
+        const vendorSelection = document.getElementById('vendor-selection');
+        const promoSelection = document.getElementById('promo-selection');
+        const generateShareImage = document.getElementById('generate-share-image');
+        const shareImageModal = document.getElementById('share-image-modal');
+        const closeShareModal = document.getElementById('close-share-modal');
+        const downloadImage = document.getElementById('download-image');
+        const toast = document.getElementById('toast');
+        const promoBadge = document.getElementById('promo-badge');
+        const shareDate = document.getElementById('share-date');
+        const mfLogoPreload = document.getElementById('mf-logo-preload');
+        const generatedImageContainer = document.getElementById('generated-image-container');
+        const generatedImage = document.getElementById('generated-image');
+        const closeGeneratedImage = document.getElementById('close-generated-image');
+        const saveGeneratedImage = document.getElementById('save-generated-image');
+
+        // Share card elements
+        const shareTitle = document.getElementById('share-title');
+        const sharePN = document.getElementById('share-pn');
+        const sharePrice = document.getElementById('share-price');
+        const shareImage = document.getElementById('share-image');
+        const shareVendorName = document.getElementById('share-vendor-name');
+        const shareVendorEmail = document.getElementById('share-vendor-email');
+
+        // Global variables
+        let products = [];
+        let selectedProduct = null;
+        let selectedVendor = null;
+        let selectedPromo = 'none';
+        let categories = [];
+        let shareImageUrl = null;
+        let logoLoaded = false;
+
+        // Configuração da planilha do Google Sheets
+        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1XRRZYgWgzG26PO9XLTa5t_2Oth_Jl4qnmoQUmFn-Vdc/edit?usp=sharing';
+        
+        // Extração do ID da planilha
+        function extractSpreadsheetId(url) {
+            const regex = /[-\w]{25,}/;
+            const match = url.match(regex);
+            return match ? match[0] : null;
+        }
+        
+        const spreadsheetId = extractSpreadsheetId(spreadsheetUrl);
+        
+        // URL para acesso à API
+        const apiUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json`;
+
+        // Initialize the app
+        function init() {
+            // Load products from Google Sheets
+            fetchProducts();
+
+            // Event listeners
+            searchInput.addEventListener('input', filterProducts);
+            categorySelect.addEventListener('change', filterProducts);
+            closeModal.addEventListener('click', hideModal);
+            closeShareModal.addEventListener('click', hideShareModal);
+            generateShareImage.addEventListener('click', showShareImageModal);
+            downloadImage.addEventListener('click', downloadShareImage);
+            retryButton.addEventListener('click', fetchProducts);
+            useLocalDataButton.addEventListener('click', useLocalData);
+            closeGeneratedImage.addEventListener('click', hideGeneratedImage);
+            
+            // Setup promo selection
+            document.querySelectorAll('#promo-selection button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedPromo = btn.dataset.promo;
+                    
+                    // Update active state
+                    document.querySelectorAll('#promo-selection button').forEach(b => {
+                        b.classList.remove('bg-mf-red', 'text-white');
+                        b.classList.add('border-gray-300');
+                    });
+                    btn.classList.remove('border-gray-300');
+                    btn.classList.add('bg-mf-red', 'text-white');
+                });
+            });
+            
+            // Select "Sem destaque" by default
+            document.querySelector('#promo-selection button[data-promo="none"]').classList.add('bg-mf-red', 'text-white');
+            document.querySelector('#promo-selection button[data-promo="none"]').classList.remove('border-gray-300');
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+                if (e.target === shareImageModal) {
+                    hideShareModal();
+                }
+                if (e.target === generatedImageContainer) {
+                    hideGeneratedImage();
+                }
+            });
+            
+            // Pré-carregar a logo
+            preloadLogo();
+        }
+        
+        // Pré-carregar a logo
+        function preloadLogo() {
+            const logoImg = new Image();
+            logoImg.crossOrigin = "anonymous";
+            logoImg.onload = function() {
+                logoLoaded = true;
+            };
+            logoImg.src = "https://logospng.org/download/massey-ferguson/massey-ferguson-512.png";
+        }
+
+        // Fetch products from Google Sheets
+        function fetchProducts() {
+            // Show loader, hide error
+            loader.style.display = 'flex';
+            errorMessage.classList.add('hidden');
+            productsContainer.innerHTML = '';
+            
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na resposta da rede');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // Extrair o JSON da resposta
+                    const jsonStart = data.indexOf('{');
+                    const jsonEnd = data.lastIndexOf('}') + 1;
+                    const jsonString = data.substring(jsonStart, jsonEnd);
+                    
+                    const jsonData = JSON.parse(jsonString);
+                    processSheetData(jsonData);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    showError();
+                });
+        }
+
+        // Process data from Google Sheets
+        function processSheetData(jsonData) {
+            try {
+                const cols = jsonData.table.cols;
+                const rows = jsonData.table.rows;
+                
+                // Identificar os índices das colunas
+                let pnIndex = 0;
+                let descricaoIndex = 1;
+                let precoIndex = 2;
+                let categoriaIndex = 3;
+                let imagemIndex = -1; // Inicialmente não encontrado
+                
+                // Tentar identificar automaticamente as colunas pelos nomes
+                cols.forEach((col, index) => {
+                    if (!col.label) return;
+                    
+                    const label = col.label.toLowerCase();
+                    if (label.includes('codigo') || label.includes('pn') || label.includes('código')) {
+                        pnIndex = index;
+                    } else if (label.includes('descricao') || label.includes('nome') || label.includes('descrição')) {
+                        descricaoIndex = index;
+                    } else if (label.includes('preco') || label.includes('valor') || label.includes('preço')) {
+                        precoIndex = index;
+                    } else if (label.includes('categoria') || label.includes('tipo')) {
+                        categoriaIndex = index;
+                    } else if (label.includes('imagem') || label.includes('foto') || label.includes('link') || label.includes('url')) {
+                        imagemIndex = index;
+                    }
+                });
+                
+                // Processar as linhas
+                products = rows.map(row => {
+                    if (!row.c) return null;
+                    
+                    const pn = row.c[pnIndex]?.v || '';
+                    const descricao = row.c[descricaoIndex]?.v || '';
+                    let preco = row.c[precoIndex]?.v || '';
+                    const categoria = row.c[categoriaIndex]?.v || '';
+                    
+                    // Formatar preço se necessário
+                    if (preco && !String(preco).startsWith('R$')) {
+                        preco = `R$ ${preco}`;
+                    }
+                    
+                    // Obter URL da imagem se disponível
+                    let imagem = '';
+                    if (imagemIndex >= 0 && row.c[imagemIndex] && row.c[imagemIndex].v) {
+                        imagem = row.c[imagemIndex].v;
+                        
+                        // Processar links do WordPress
+                        if (imagem.includes('wordpress.com') || imagem.includes('wp.com')) {
+                            // Já está no formato correto para WordPress
+                            imagem = imagem;
+                        } else if (imagem.includes('drive.google.com')) {
+                            // Substituir por um placeholder para evitar problemas de CORS
+                            imagem = `https://via.placeholder.com/300?text=${encodeURIComponent(descricao.substring(0, 20))}`;
+                        } else if (!imagem.startsWith('http')) {
+                            imagem = `https://${imagem}`;
+                        }
+                    }
+                    
+                    // Se não houver imagem, usar placeholder
+                    if (!imagem) {
+                        imagem = `https://via.placeholder.com/300?text=${encodeURIComponent(descricao.substring(0, 20))}`;
+                    }
+                    
+                    return { pn, descricao, preco, categoria, imagem };
+                }).filter(product => product && product.pn && product.descricao);
+                
+                // Esconder loader
+                loader.style.display = 'none';
+                
+                if (products.length === 0) {
+                    showError('Nenhum produto encontrado na planilha.');
+                    return;
+                }
+                
+                // Renderizar produtos e popular categorias
+                renderProducts(products);
+                populateCategories();
+                
+            } catch (error) {
+                console.error('Error processing data:', error);
+                showError();
+            }
+        }
+
+        // Use local data as fallback
+        function useLocalData() {
+            products = fallbackProducts.map(product => {
+                return {
+                    ...product,
+                    imagem: `https://via.placeholder.com/300?text=${encodeURIComponent(product.descricao.substring(0, 20))}`
+                };
+            });
+            
+            errorMessage.classList.add('hidden');
+            loader.style.display = 'none';
+            
+            renderProducts(products);
+            populateCategories();
+        }
+
+        // Show error message
+        function showError(message = 'Não foi possível acessar os dados da planilha.') {
+            loader.style.display = 'none';
+            errorMessage.classList.remove('hidden');
+            errorMessage.querySelector('p:nth-child(2)').textContent = message;
+        }
+
+        // Render products to the grid
+        function renderProducts(productsToRender) {
+            productsContainer.innerHTML = '';
+            
+            if (productsToRender.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                
+                productsToRender.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden';
+                    
+                    // Criar elemento de imagem com tratamento de erro
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'h-48 bg-gray-100 flex items-center justify-center';
+                    
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'w-full h-full flex items-center justify-center';
+                    
+                    // Adicionar um loader enquanto a imagem carrega
+                    imageElement.innerHTML = `
+                        <div class="loader w-8 h-8 border-4 border-gray-200 rounded-full"></div>
+                    `;
+                    
+                    imageContainer.appendChild(imageElement);
+                    
+                    card.innerHTML = `
+                        <div class="p-4">
+                            <p class="text-sm text-gray-500">${product.pn}</p>
+                            <h3 class="font-medium text-lg mb-2">${product.descricao}</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-mf-red font-bold">${product.preco}</span>
+                                <button class="view-details px-3 py-1 bg-mf-red text-white rounded-md hover:bg-red-700 text-sm">
+                                    Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Inserir o container de imagem no início do card
+                    card.insertBefore(imageContainer, card.firstChild);
+                    
+                    card.querySelector('.view-details').addEventListener('click', () => {
+                        showProductDetails(product);
+                    });
+                    
+                    productsContainer.appendChild(card);
+                    
+                    // Carregar a imagem com tratamento de erro
+                    loadProductImage(product.imagem, imageElement);
+                });
+            }
+        }
+
+        // Função para carregar imagem com tratamento de erro
+        function loadProductImage(imageUrl, container) {
+            const img = document.createElement('img');
+            img.className = 'max-w-full max-h-full object-contain';
+            img.alt = 'Produto';
+            
+            // Mostrar loader enquanto carrega
+            const loader = document.createElement('div');
+            loader.className = 'loader w-8 h-8 border-4 border-gray-200 rounded-full';
+            container.innerHTML = '';
+            container.appendChild(loader);
+            
+            // Carregar a imagem
+            img.onload = function() {
+                container.innerHTML = '';
+                container.appendChild(img);
+            };
+            
+            img.onerror = function() {
+                container.innerHTML = `
+                    <div class="image-error">
+                        <div>
+                            <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Imagem não disponível
+                        </div>
+                    </div>
+                `;
+            };
+            
+            // Adicionar parâmetro de cache-busting para evitar problemas de cache
+            img.src = imageUrl + (imageUrl.includes('?') ? '&' : '?') + 'cb=' + new Date().getTime();
+            
+            // Definir timeout para não esperar indefinidamente
+            setTimeout(() => {
+                if (!img.complete) {
+                    img.src = `https://via.placeholder.com/300?text=Carregando...`;
+                }
+            }, 5000);
+        }
+
+        // Populate categories dropdown
+        function populateCategories() {
+            // Clear existing options except the first one
+            while (categorySelect.options.length > 1) {
+                categorySelect.remove(1);
+            }
+            
+            // Extract unique categories
+            categories = [...new Set(products.map(product => product.categoria).filter(Boolean))];
+            
+            // Add categories to select
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        // Filter products based on search and category
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryFilter = categorySelect.value;
+            
+            const filteredProducts = products.filter(product => {
+                const matchesSearch = product.pn.toLowerCase().includes(searchTerm) || 
+                                     product.descricao.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryFilter === 'all' || product.categoria === categoryFilter;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderProducts(filteredProducts);
+        }
+
+        // Show product details in modal
+        function showProductDetails(product) {
+            selectedProduct = product;
+            
+            modalTitle.textContent = product.descricao;
+            modalPN.textContent = product.pn;
+            modalCategory.textContent = product.categoria || 'Não especificada';
+            modalPrice.textContent = product.preco;
+            
+            // Mostrar loader e esconder imagem e erro
+            modalImage.style.display = 'none';
+            modalImageError.classList.add('hidden');
+            modalImageLoader.style.display = 'block';
+            
+            // Carregar a imagem
+            modalImage.onload = function() {
+                modalImageLoader.style.display = 'none';
+                modalImage.style.display = 'block';
+            };
+            
+            modalImage.onerror = function() {
+                modalImageLoader.style.display = 'none';
+                modalImageError.classList.remove('hidden');
+                
+                // Atualizar a URL da imagem para um placeholder
+                product.imagem = `https://via.placeholder.com/300?text=${encodeURIComponent(product.descricao.substring(0, 20))}`;
+            };
+            
+            // Adicionar parâmetro de cache-busting para evitar problemas de cache
+            modalImage.src = product.imagem + (product.imagem.includes('?') ? '&' : '?') + 'cb=' + new Date().getTime();
+            
+            // Populate vendor selection
+            vendorSelection.innerHTML = '';
+            vendors.forEach(vendor => {
+                const vendorBtn = document.createElement('button');
+                vendorBtn.className = `px-3 py-1 border rounded-md text-sm ${selectedVendor && selectedVendor.id === vendor.id ? 'bg-mf-red text-white' : 'border-gray-300 hover:border-mf-red'}`;
+                vendorBtn.textContent = vendor.nome;
+                vendorBtn.addEventListener('click', () => {
+                    selectVendor(vendor);
+                    
+                    // Update active state
+                    document.querySelectorAll('#vendor-selection button').forEach(btn => {
+                        btn.classList.remove('bg-mf-red', 'text-white');
+                        btn.classList.add('border-gray-300');
+                    });
+                    vendorBtn.classList.remove('border-gray-300');
+                    vendorBtn.classList.add('bg-mf-red', 'text-white');
+                });
+                vendorSelection.appendChild(vendorBtn);
+            });
+            
+            // Select first vendor by default if none selected
+            if (!selectedVendor) {
+                selectVendor(vendors[0]);
+                vendorSelection.querySelector('button').classList.add('bg-mf-red', 'text-white');
+                vendorSelection.querySelector('button').classList.remove('border-gray-300');
+            }
+            
+            // Reset promo selection to default
+            selectedPromo = 'none';
+            document.querySelectorAll('#promo-selection button').forEach(btn => {
+                btn.classList.remove('bg-mf-red', 'text-white');
+                btn.classList.add('border-gray-300');
+            });
+            document.querySelector('#promo-selection button[data-promo="none"]').classList.add('bg-mf-red', 'text-white');
+            document.querySelector('#promo-selection button[data-promo="none"]').classList.remove('border-gray-300');
+            
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        // Hide modal
+        function hideModal() {
+            modal.classList.remove('active');
+        }
+
+        // Select vendor for sharing
+        function selectVendor(vendor) {
+            selectedVendor = vendor;
+        }
+
+        // Format current date as DD/MM/YY
+        function formatCurrentDate() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).substring(2);
+            
+            return `${day}/${month}/${year}`;
+        }
+
+        // Show share image modal
+        function showShareImageModal() {
+            if (!selectedProduct || !selectedVendor) return;
+            
+            // Populate share card with product and vendor info
+            shareTitle.textContent = selectedProduct.descricao;
+            sharePN.textContent = `Código: ${selectedProduct.pn}`;
+            sharePrice.textContent = selectedProduct.preco;
+            
+            // Carregar a imagem
+            shareImage.onload = function() {
+                // Imagem carregada com sucesso
+            };
+            
+            shareImage.onerror = function() {
+                // Usar um placeholder se a imagem falhar
+                shareImage.src = `https://via.placeholder.com/300?text=${encodeURIComponent(selectedProduct.descricao.substring(0, 20))}`;
+            };
+            
+            // Adicionar parâmetro de cache-busting para evitar problemas de cache
+            shareImage.src = selectedProduct.imagem + (selectedProduct.imagem.includes('?') ? '&' : '?') + 'cb=' + new Date().getTime();
+            
+            // Adicionar informações do vendedor (nome e whatsapp na mesma linha)
+            shareVendorName.textContent = `${selectedVendor.nome} - ${selectedVendor.whatsapp}`;
+            shareVendorEmail.textContent = selectedVendor.email;
+            
+            // Adicionar data atual
+            shareDate.textContent = formatCurrentDate();
+            
+            // Configurar o destaque promocional
+            updatePromoBadge();
+            
+            // Hide product modal and show share modal
+            hideModal();
+            shareImageModal.classList.add('active');
+        }
+
+        // Update promo badge based on selection
+        function updatePromoBadge() {
+            // Limpar badge anterior
+            promoBadge.className = 'hidden';
+            promoBadge.innerHTML = '';
+            
+            // Adicionar novo badge se necessário
+            if (selectedPromo !== 'none') {
+                let promoText = '';
+                let badgeClass = '';
+                
+                switch (selectedPromo) {
+                    case 'promo':
+                        promoText = 'PROMOÇÃO';
+                        badgeClass = 'promo-badge';
+                        break;
+                    case 'offer':
+                        promoText = 'OFERTA';
+                        badgeClass = 'offer-badge';
+                        break;
+                    case 'campaign':
+                        promoText = 'CAMPANHA';
+                        badgeClass = 'campaign-badge';
+                        break;
+                }
+                
+                promoBadge.className = badgeClass;
+                promoBadge.textContent = promoText;
+                promoBadge.classList.remove('hidden');
+            }
+        }
+
+        // Hide share image modal
+        function hideShareModal() {
+            shareImageModal.classList.remove('active');
+        }
+
+        // NOVA ABORDAGEM: Criar e baixar imagem diretamente
+        function downloadShareImage() {
+            if (!selectedProduct || !selectedVendor) return;
+            
+            // Mostrar um indicador de carregamento no botão
+            downloadImage.innerHTML = `
+                <div class="loader w-5 h-5 border-4 border-white border-t-transparent rounded-full mr-2"></div>
+                Gerando imagem...
+            `;
+            downloadImage.disabled = true;
+            
+            // Criar um canvas temporário
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Definir tamanho do canvas (600x400 para o card de compartilhamento)
+            canvas.width = 600;
+            canvas.height = 400;
+            
+            // Desenhar fundo branco
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Desenhar cabeçalho vermelho
+            ctx.fillStyle = '#E31937';
+            ctx.fillRect(0, 0, canvas.width, 50);
+            
+            // Carregar a logo
+            const logoImg = new Image();
+            logoImg.crossOrigin = 'anonymous';
+            
+            // Carregar a imagem do produto
+            const productImg = new Image();
+            productImg.crossOrigin = 'anonymous';
+            
+            // Contador para controlar quando todas as imagens estiverem carregadas
+            let loadedImages = 0;
+            const totalImages = 2;
+            
+            function checkAllImagesLoaded() {
+                loadedImages++;
+                if (loadedImages === totalImages) {
+                    renderFinalImage();
+                }
+            }
+            
+            // Função para renderizar a imagem final quando todas as imagens estiverem carregadas
+            function renderFinalImage() {
+                // Desenhar logo
+                ctx.drawImage(logoImg, 20, 10, 30, 30);
+                
+                // Texto do cabeçalho
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 16px Montserrat, sans-serif';
+                ctx.fillText('SULPARA', 60, 25);
+                ctx.font = '12px Montserrat, sans-serif';
+                ctx.fillText('MASSEY FERGUSON', 60, 40);
+                
+                // Texto da localização
+                ctx.textAlign = 'right';
+                ctx.fillText('PARAGOMINAS/PA', 580, 30);
+                ctx.textAlign = 'left';
+                
+                // Desenhar área da imagem (lado esquerdo)
+                ctx.fillStyle = '#F8F8F8';
+                ctx.fillRect(0, 50, 240, 300);
+                
+                // Desenhar caixa branca para a imagem
+                ctx.fillStyle = '#FFFFFF';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 5;
+                ctx.fillRect(20, 70, 200, 260);
+                ctx.shadowColor = 'transparent';
+                
+                // Desenhar imagem do produto centralizada
+                const imgWidth = productImg.width;
+                const imgHeight = productImg.height;
+                let drawWidth, drawHeight, drawX, drawY;
+                
+                if (imgWidth > imgHeight) {
+                    drawWidth = 180;
+                    drawHeight = (imgHeight / imgWidth) * drawWidth;
+                    drawX = 30;
+                    drawY = 70 + (260 - drawHeight) / 2;
+                } else {
+                    drawHeight = 240;
+                    drawWidth = (imgWidth / imgHeight) * drawHeight;
+                    drawX = 20 + (200 - drawWidth) / 2;
+                    drawY = 80;
+                }
+                
+                ctx.drawImage(productImg, drawX, drawY, drawWidth, drawHeight);
+                
+                // Desenhar área de detalhes (lado direito)
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(240, 50, 360, 300);
+                
+                // Código do produto
+                ctx.fillStyle = '#666666';
+                ctx.font = '14px Montserrat, sans-serif';
+                ctx.fillText(`Código: ${selectedProduct.pn}`, 260, 80);
+                
+                // Título do produto
+                ctx.fillStyle = '#333333';
+                ctx.font = 'bold 18px Montserrat, sans-serif';
+                
+                // Quebrar texto em múltiplas linhas se necessário
+                const title = selectedProduct.descricao;
+                const maxWidth = 320;
+                const lineHeight = 24;
+                let y = 110;
+                
+                wrapText(ctx, title, 260, y, maxWidth, lineHeight);
+                
+                // Preço
+                y = 220;
+                ctx.fillStyle = '#666666';
+                ctx.font = '16px Montserrat, sans-serif';
+                ctx.fillText('Preço', 260, y);
+                
+                ctx.fillStyle = '#E31937';
+                ctx.font = 'bold 28px Montserrat, sans-serif';
+                ctx.fillText(selectedProduct.preco, 260, y + 35);
+                
+                ctx.fillStyle = '#666666';
+                ctx.font = 'italic 12px Montserrat, sans-serif';
+                ctx.fillText('Preço válido por 7 dias', 260, y + 55);
+                
+                // Linha divisória
+                ctx.strokeStyle = '#EEEEEE';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(260, 290);
+                ctx.lineTo(580, 290);
+                ctx.stroke();
+                
+                // Informações de contato
+                ctx.fillStyle = '#666666';
+                ctx.font = '12px Montserrat, sans-serif';
+                ctx.fillText('Para mais informações:', 260, 310);
+                
+                ctx.fillStyle = '#333333';
+                ctx.font = 'bold 16px Montserrat, sans-serif';
+                ctx.fillText(`${selectedVendor.nome} - ${selectedVendor.whatsapp}`, 260, 330);
+                
+                ctx.fillStyle = '#666666';
+                ctx.font = '12px Montserrat, sans-serif';
+                ctx.fillText(selectedVendor.email, 260, 350);
+                
+                // Rodapé
+                ctx.fillStyle = '#999999';
+                ctx.font = '10px Montserrat, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(formatCurrentDate(), 580, 380);
+                ctx.fillText('© SULPARA MASSEY FERGUSON', 580, 390);
+                ctx.textAlign = 'left';
+                
+                // Adicionar badge promocional se necessário
+                if (selectedPromo !== 'none') {
+                    switch (selectedPromo) {
+                        case 'promo':
+                            drawPromoBadge(ctx, 'PROMOÇÃO');
+                            break;
+                        case 'offer':
+                            drawOfferBadge(ctx);
+                            break;
+                        case 'campaign':
+                            drawCampaignBadge(ctx, 'CAMPANHA');
+                            break;
+                    }
+                }
+                
+                // Converter canvas para URL de dados
+                try {
+                    const dataUrl = canvas.toDataURL('image/png');
+                    
+                    // Restaurar o botão
+                    downloadImage.innerHTML = `
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Baixar imagem
+                    `;
+                    downloadImage.disabled = false;
+                    
+                    // Esconder o modal de compartilhamento
+                    hideShareModal();
+                    
+                    // Mostrar a imagem gerada em tela cheia
+                    generatedImage.src = dataUrl;
+                    generatedImageContainer.style.display = 'flex';
+                    
+                    // Configurar o link de download
+                    saveGeneratedImage.href = dataUrl;
+                    saveGeneratedImage.download = `${selectedProduct.pn}-${selectedProduct.descricao.replace(/\s+/g, '-').toLowerCase().substring(0, 30)}.png`;
+                    
+                    // Mostrar notificação de sucesso
+                    showToast("Imagem gerada com sucesso!");
+                } catch (err) {
+                    console.error("Erro ao processar canvas:", err);
+                    handleDownloadError();
+                }
+            }
+            
+            // Função para desenhar badge de promoção
+            function drawPromoBadge(ctx, text) {
+                ctx.save();
+                ctx.translate(520, 80);
+                ctx.rotate(5 * Math.PI / 180);
+                
+                // Fundo do badge
+                ctx.fillStyle = '#E31937';
+                ctx.shadowColor = 'rgba(227, 25, 55, 0.3)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 4;
+                
+                // Desenhar retângulo arredondado
+                roundRect(ctx, -60, -15, 120, 30, 15, true);
+                
+                // Texto do badge
+                ctx.shadowColor = 'transparent';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 14px Montserrat, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(text, 0, 5);
+                ctx.textAlign = 'left';
+                
+                ctx.restore();
+            }
+            
+            // Função para desenhar badge de oferta (estrela)
+            function drawOfferBadge(ctx) {
+                ctx.save();
+                ctx.translate(520, 80);
+                ctx.rotate(15 * Math.PI / 180);
+                
+                // Fundo do badge (estrela)
+                ctx.fillStyle = '#FFD700';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 5;
+                
+                // Desenhar estrela
+                drawStar(ctx, 0, 0, 5, 40, 20);
+                
+                // Texto do badge
+                ctx.shadowColor = 'transparent';
+                ctx.fillStyle = '#E31937';
+                ctx.font = 'bold 16px Montserrat, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('OFERTA', 0, 5);
+                ctx.textAlign = 'left';
+                
+                ctx.restore();
+            }
+            
+            // Função para desenhar badge de campanha
+            function drawCampaignBadge(ctx, text) {
+                ctx.save();
+                ctx.translate(520, 80);
+                
+                // Fundo do badge
+                const gradient = ctx.createLinearGradient(-50, -15, 50, 15);
+                gradient.addColorStop(0, '#E31937');
+                gradient.addColorStop(1, '#FF5757');
+                
+                ctx.fillStyle = gradient;
+                ctx.shadowColor = 'rgba(227, 25, 55, 0.3)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 4;
+                
+                // Desenhar retângulo arredondado
+                roundRect(ctx, -50, -15, 100, 30, 6, true);
+                
+                // Borda branca
+                ctx.shadowColor = 'transparent';
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                roundRect(ctx, -50, -15, 100, 30, 6, false, true);
+                
+                // Texto do badge
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 14px Montserrat, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(text, 0, 5);
+                ctx.textAlign = 'left';
+                
+                ctx.restore();
+            }
+            
+            // Função para desenhar retângulo arredondado
+            function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                ctx.lineTo(x + radius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+                if (fill) {
+                    ctx.fill();
+                }
+                if (stroke) {
+                    ctx.stroke();
+                }
+            }
+            
+            // Função para desenhar estrela
+            function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
+                let rot = Math.PI / 2 * 3;
+                let x = cx;
+                let y = cy;
+                let step = Math.PI / spikes;
+                
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - outerRadius);
+                
+                for (let i = 0; i < spikes; i++) {
+                    x = cx + Math.cos(rot) * outerRadius;
+                    y = cy + Math.sin(rot) * outerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                    
+                    x = cx + Math.cos(rot) * innerRadius;
+                    y = cy + Math.sin(rot) * innerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                }
+                
+                ctx.lineTo(cx, cy - outerRadius);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Função para quebrar texto em múltiplas linhas
+            function wrapText(context, text, x, y, maxWidth, lineHeight) {
+                const words = text.split(' ');
+                let line = '';
+                let testLine = '';
+                let lineCount = 0;
+                const maxLines = 3;
+                
+                for (let n = 0; n < words.length; n++) {
+                    testLine = line + words[n] + ' ';
+                    const metrics = context.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > maxWidth && n > 0) {
+                        context.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                        lineCount++;
+                        
+                        if (lineCount >= maxLines - 1 && n < words.length - 1) {
+                            // Adicionar reticências se o texto for muito longo
+                            context.fillText(line + '...', x, y);
+                            break;
+                        }
+                    } else {
+                        line = testLine;
+                    }
+                }
+                
+                if (lineCount < maxLines) {
+                    context.fillText(line, x, y);
+                }
+            }
+            
+            // Carregar a logo
+            logoImg.onload = checkAllImagesLoaded;
+            logoImg.onerror = function() {
+                // Se falhar ao carregar a logo, desenhar um retângulo vermelho como fallback
+                console.error('Erro ao carregar a logo');
+                checkAllImagesLoaded();
+            };
+            logoImg.src = 'https://logospng.org/download/massey-ferguson/massey-ferguson-512.png?' + new Date().getTime();
+            
+            // Carregar a imagem do produto
+            productImg.onload = checkAllImagesLoaded;
+            productImg.onerror = function() {
+                // Se falhar ao carregar a imagem do produto, usar um placeholder
+                console.error('Erro ao carregar a imagem do produto');
+                productImg.src = `https://via.placeholder.com/300x300?text=${encodeURIComponent(selectedProduct.descricao.substring(0, 20))}`;
+                // Não chamar checkAllImagesLoaded aqui, pois o onload será chamado novamente com o placeholder
+            };
+            productImg.src = selectedProduct.imagem + (selectedProduct.imagem.includes('?') ? '&' : '?') + 'cb=' + new Date().getTime();
+            
+            function handleDownloadError() {
+                // Restaurar o botão
+                downloadImage.innerHTML = `
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Baixar imagem
+                `;
+                downloadImage.disabled = false;
+                
+                showToast("Erro ao gerar imagem. Tente novamente.");
+            }
+        }
+        
+        // Esconder a visualização da imagem gerada
+        function hideGeneratedImage() {
+            generatedImageContainer.style.display = 'none';
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the app
+        init();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94b853927630ad30',t:'MTc0OTIxNzI3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
