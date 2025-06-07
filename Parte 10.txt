@@ -1,0 +1,81 @@
+Parte 10
+                row.innerHTML = `
+                    <td class="py-2 px-4 border-b">${product.pn || ''}</td>
+                    <td class="py-2 px-4 border-b">${product.descricao || ''}</td>
+                    <td class="py-2 px-4 border-b text-right">${preco}</td>
+                    <td class="py-2 px-4 border-b text-center">
+                        <button class="select-btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-sm transition duration-300">
+                            Gerar Card
+                        </button>
+                    </td>
+                `;
+                
+                const selectBtn = row.querySelector('.select-btn');
+                selectBtn.addEventListener('click', () => {
+                    selectProduct(product);
+                    showCardPreview();
+                });
+                
+                productList.appendChild(row);
+            });
+        }
+
+        // Função para filtrar produtos
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categorySelect.value;
+            
+            const filteredProducts = products.filter(product => {
+                const matchesSearch = 
+                    (product.pn || '').toString().toLowerCase().includes(searchTerm) ||
+                    (product.descricao || '').toString().toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = !selectedCategory || product.categoria === selectedCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Função para selecionar um produto
+        function selectProduct(product) {
+            selectedProduct = product;
+        }
+
+        // Função para mostrar a visualização do card
+        function showCardPreview() {
+            if (!selectedProduct || !selectedVendor) return;
+            
+            productTitle.textContent = selectedProduct.produto || selectedProduct.descricao || 'Produto';
+            productDescription.textContent = selectedProduct.descricao || 'Descrição não disponível';
+            productCode.textContent = `PN: ${selectedProduct.pn || ''}`;
+            
+            const preco = parseFloat(selectedProduct.preco || 0).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            productPrice.textContent = preco;
+            
+            // Configurar informações do vendedor
+            vendorNameElement.textContent = selectedVendor.nome;
+            vendorContactElement.textContent = selectedVendor.whatsapp;
+            
+            // Configurar imagem do produto (se disponível)
+            if (selectedProduct.foto && selectedProduct.foto.trim() !== '') {
+                productImage.src = selectedProduct.foto;
+            } else {
+                // Imagem padrão se não houver foto
+                productImage.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Cpath d='M82 88H118V112H82z' fill='%23e53e3e'/%3E%3Cpath d='M76.5 76.5H123.5V123.5H76.5z' stroke='%23e53e3e' stroke-width='3' fill='none'/%3E%3Ctext x='100' y='140' font-family='Arial' font-size='14' text-anchor='middle' fill='%23333333'%3EMassey Ferguson%3C/text%3E%3C/svg%3E";
+            }
+            
+            cardPreviewSection.classList.remove('hidden');
+            cardPreviewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para baixar o card como imagem
+        function downloadCard() {
+            if (!selectedProduct || !selectedVendor) return;
+            
+            const cardElement = document.getElementById('cardPreview');
+            

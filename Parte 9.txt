@@ -1,0 +1,76 @@
+Parte 9
+            if (productsToDisplay.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'col-span-full text-center py-8 text-gray-500';
+                emptyMessage.textContent = 'Nenhum produto encontrado';
+                productGallery.appendChild(emptyMessage);
+                return;
+            }
+            
+            productsToDisplay.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col';
+                
+                const preco = parseFloat(product.preco || 0).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                
+                // Imagem padrão se não houver foto
+                let imageUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f0f0f0'/%3E%3Cpath d='M82 88H118V112H82z' fill='%23e53e3e'/%3E%3Cpath d='M76.5 76.5H123.5V123.5H76.5z' stroke='%23e53e3e' stroke-width='3' fill='none'/%3E%3Ctext x='100' y='140' font-family='Arial' font-size='14' text-anchor='middle' fill='%23333333'%3EMassey Ferguson%3C/text%3E%3C/svg%3E";
+                
+                // Se houver foto, usar a URL da foto
+                if (product.foto && product.foto.trim() !== '') {
+                    imageUrl = product.foto;
+                }
+                
+                card.innerHTML = `
+                    <div class="p-4 flex-grow">
+                        <div class="flex justify-center mb-3">
+                            <img src="${imageUrl}" alt="${product.descricao || 'Produto'}" class="gallery-image">
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1 truncate">${product.descricao || 'Produto'}</h3>
+                        <p class="text-xs text-gray-500 mb-2">PN: ${product.pn || ''}</p>
+                        <p class="product-price text-lg">${preco}</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 border-t border-gray-100">
+                        <button class="select-btn w-full bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-sm transition duration-300">
+                            Gerar Card
+                        </button>
+                    </div>
+                `;
+                
+                const selectBtn = card.querySelector('.select-btn');
+                selectBtn.addEventListener('click', () => {
+                    selectProduct(product);
+                    showCardPreview();
+                });
+                
+                productGallery.appendChild(card);
+            });
+        }
+
+        // Função para exibir produtos em formato de tabela
+        function displayProductsAsTable(productsToDisplay) {
+            productList.innerHTML = '';
+            
+            if (productsToDisplay.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="4" class="py-4 px-4 text-center text-gray-500">
+                        Nenhum produto encontrado
+                    </td>
+                `;
+                productList.appendChild(row);
+                return;
+            }
+            
+            productsToDisplay.forEach(product => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                
+                const preco = parseFloat(product.preco || 0).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                

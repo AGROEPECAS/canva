@@ -1,0 +1,125 @@
+Parte 1
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Preços - SULPARA MASSEY FERGUSON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .product-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #e53e3e;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .card-container {
+            position: relative;
+            width: 340px;
+            height: 480px;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background-color: #e53e3e;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f8f8;
+            padding: 15px;
+            text-align: center;
+        }
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        .gallery-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+        }
+        .logo-image {
+            height: 40px;
+            margin-bottom: 5px;
+        }
+        .vendor-selector {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .vendor-selector-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .vendor-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .vendor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .vendor-card.selected {
+            border-color: #e53e3e;
+            background-color: #fff5f5;
+        }
+        .whatsapp-button {
+            background-color: #25D366;
+        }
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+        }
+        .product-price {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+    </style>
+

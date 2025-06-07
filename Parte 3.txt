@@ -1,0 +1,56 @@
+Parte 3
+            <div class="flex justify-between items-center mb-6">
+                <button id="loadData" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Carregar Produtos
+                </button>
+                <div class="flex space-x-2">
+                    <button id="viewGallery" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-300 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Galeria
+                    </button>
+                    <button id="viewTable" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition duration-300 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        Tabela
+                    </button>
+                </div>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="loader"></div>
+                <p class="text-center text-gray-600">Carregando produtos...</p>
+            </div>
+
+            <div id="error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <p>Erro ao carregar os dados. Por favor, tente novamente.</p>
+            </div>
+
+            <!-- Visualização em Tabela -->
+            <div class="overflow-x-auto">
+                <table id="productTable" class="min-w-full bg-white border border-gray-200 hidden">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="py-2 px-4 border-b text-left">PN</th>
+                            <th class="py-2 px-4 border-b text-left">Descrição</th>
+                            <th class="py-2 px-4 border-b text-right">Preço</th>
+                            <th class="py-2 px-4 border-b text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productList">
+                        <!-- Produtos serão carregados dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Visualização em Galeria -->
+            <div id="productGallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 hidden">
+                <!-- Produtos serão carregados dinamicamente como cards -->
+            </div>
+        </div>
+

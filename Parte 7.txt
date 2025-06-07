@@ -1,0 +1,89 @@
+Parte 7
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">${vendor.nome}</h3>
+                            <p class="text-sm text-gray-500">${vendor.whatsapp}</p>
+                        </div>
+                    </div>
+                `;
+                
+                vendorCard.addEventListener('click', () => {
+                    // Remover seleção anterior
+                    document.querySelectorAll('.vendor-card').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    
+                    // Selecionar este vendedor
+                    vendorCard.classList.add('selected');
+                    selectedVendor = vendor;
+                    confirmVendorBtn.disabled = false;
+                });
+                
+                vendorList.appendChild(vendorCard);
+            });
+            
+            confirmVendorBtn.addEventListener('click', () => {
+                if (selectedVendor) {
+                    selectedVendorName.textContent = selectedVendor.nome;
+                    vendorSelector.style.display = 'none';
+                }
+            });
+        }
+
+        // Função para mostrar o seletor de vendedor
+        function showVendorSelector() {
+            vendorSelector.style.display = 'flex';
+        }
+
+        // Função para alternar entre visualizações
+        function switchView(view) {
+            currentView = view;
+            
+            if (view === 'gallery') {
+                productGallery.classList.remove('hidden');
+                productTable.classList.add('hidden');
+                viewGalleryBtn.classList.remove('bg-blue-600');
+                viewGalleryBtn.classList.add('bg-blue-700');
+                viewTableBtn.classList.remove('bg-gray-700');
+                viewTableBtn.classList.add('bg-gray-600');
+            } else {
+                productGallery.classList.add('hidden');
+                productTable.classList.remove('hidden');
+                viewGalleryBtn.classList.add('bg-blue-600');
+                viewGalleryBtn.classList.remove('bg-blue-700');
+                viewTableBtn.classList.add('bg-gray-700');
+                viewTableBtn.classList.remove('bg-gray-600');
+            }
+            
+            // Se já temos produtos carregados, exibir na visualização selecionada
+            if (products.length > 0) {
+                displayProducts(products);
+            }
+        }
+
+        // Função para carregar produtos da planilha usando o método alternativo
+        function loadProducts() {
+            if (!selectedVendor) {
+                alert('Por favor, selecione um vendedor antes de carregar os produtos.');
+                showVendorSelector();
+                return;
+            }
+            
+            loadingElement.classList.remove('hidden');
+            productTable.classList.add('hidden');
+            productGallery.classList.add('hidden');
+            errorElement.classList.add('hidden');
+            
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar dados');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    // Extrair o JSON da resposta
+                    const jsonText = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                    const data = JSON.parse(jsonText);
+                    

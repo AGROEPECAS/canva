@@ -1,0 +1,71 @@
+Parte 6
+        // Elementos DOM
+        const vendorSelector = document.getElementById('vendorSelector');
+        const vendorList = document.getElementById('vendorList');
+        const confirmVendorBtn = document.getElementById('confirmVendor');
+        const selectedVendorName = document.getElementById('selectedVendorName');
+        const changeVendorBtn = document.getElementById('changeVendor');
+        const loadDataBtn = document.getElementById('loadData');
+        const viewGalleryBtn = document.getElementById('viewGallery');
+        const viewTableBtn = document.getElementById('viewTable');
+        const searchInput = document.getElementById('search');
+        const categorySelect = document.getElementById('category');
+        const productTable = document.getElementById('productTable');
+        const productList = document.getElementById('productList');
+        const productGallery = document.getElementById('productGallery');
+        const loadingElement = document.getElementById('loading');
+        const errorElement = document.getElementById('error');
+        const cardPreviewSection = document.getElementById('cardPreviewSection');
+        const downloadCardBtn = document.getElementById('downloadCard');
+        const shareWhatsappBtn = document.getElementById('shareWhatsapp');
+        const shareEmailBtn = document.getElementById('shareEmail');
+
+        // Elementos do card
+        const productTitle = document.getElementById('productTitle');
+        const productDescription = document.getElementById('productDescription');
+        const productCode = document.getElementById('productCode');
+        const productPrice = document.getElementById('productPrice');
+        const productImage = document.getElementById('productImage');
+        const vendorNameElement = document.getElementById('vendorName');
+        const vendorContactElement = document.getElementById('vendorContact');
+
+        // Armazenar dados dos produtos
+        let products = [];
+        let selectedProduct = null;
+        let selectedVendor = null;
+        let currentView = 'gallery'; // 'gallery' ou 'table'
+
+        // Inicializar seletor de vendedor
+        initVendorSelector();
+
+        // Carregar dados da planilha
+        loadDataBtn.addEventListener('click', loadProducts);
+
+        // Alternar entre visualizações
+        viewGalleryBtn.addEventListener('click', () => switchView('gallery'));
+        viewTableBtn.addEventListener('click', () => switchView('table'));
+
+        // Pesquisar produtos
+        searchInput.addEventListener('input', filterProducts);
+        categorySelect.addEventListener('change', filterProducts);
+
+        // Baixar e compartilhar card
+        downloadCardBtn.addEventListener('click', downloadCard);
+        shareWhatsappBtn.addEventListener('click', shareViaWhatsapp);
+        shareEmailBtn.addEventListener('click', shareViaEmail);
+        
+        // Mudar vendedor
+        changeVendorBtn.addEventListener('click', showVendorSelector);
+
+        // Função para inicializar o seletor de vendedor
+        function initVendorSelector() {
+            vendorList.innerHTML = '';
+            
+            vendors.forEach(vendor => {
+                const vendorCard = document.createElement('div');
+                vendorCard.className = 'vendor-card border border-gray-200 rounded-lg p-4 hover:shadow-md';
+                vendorCard.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="bg-red-100 rounded-full p-3 mr-4">
+                            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
